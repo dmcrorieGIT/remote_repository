@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+// Initial build of the game code file that we will be working
+// off of
 int main(void)
 {
   sf::RenderWindow window(sf::VideoMode(200,200), "SFML Game");
