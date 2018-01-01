@@ -10,6 +10,7 @@ class Player
   
 public:
 
+  float bias[10];
   sf::RenderWindow *win;
   float Str, Spd, Int, x, y;
   bool is_moving;
@@ -18,7 +19,8 @@ public:
   
   Player(sf::RenderWindow *window, int num, int xi, int yi);
   void draw(void);
-  void move(int mov);
+  void move(float mov);
+  void face(bool right);
   
 private:
 protected:

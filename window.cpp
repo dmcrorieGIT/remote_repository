@@ -8,8 +8,8 @@ int gameRenderer(void)
 {
 
   sf::RenderWindow window(sf::VideoMode(400,400), "SFML Game");
-  Player p1(&window, 1, 100, 100);
-
+  Player p1(&window, 1, 100, 300);
+  Player p2(&window, 2, 250, 300);
 
   while (window.isOpen())
     {
@@ -23,14 +23,19 @@ int gameRenderer(void)
 	}
 
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	p1.move(-1);
+	p1.move(-0.3);
 
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	p1.move(1);
+	p1.move(0.3);
+
+      if (p1.body.getGlobalBounds().intersects(p2.body.getGlobalBounds()))
+	std::cout << "Collision\n";
 
       
       window.clear();
       
+      p2.draw();
+
       p1.draw();
       
       window.display();
