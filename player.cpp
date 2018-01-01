@@ -5,19 +5,19 @@ Player::Player(sf::RenderWindow *window, int num, int xi, int yi)
 {
   switch(num){
   case 1:
-    heR_t.loadFromFile("Images/Player1_Head_Right.png");
-    heL_t.loadFromFile("Images/Player1_Head_Left.png");
-    ha_t.loadFromFile("Images/Player1_Hand.png");
-    bo_t.loadFromFile("Images/Player1_Body.png");
-    fo_t.loadFromFile("Images/Player1_Foot.png");
+    heR_t.loadFromFile("Images/Player/Player1_Head_Right.png");
+    heL_t.loadFromFile("Images/Player/Player1_Head_Left.png");
+    ha_t.loadFromFile("Images/Player/Player1_Hand.png");
+    bo_t.loadFromFile("Images/Player/Player1_Body.png");
+    fo_t.loadFromFile("Images/Player/Player1_Foot.png");
     break;
 
  case 2:
-   heR_t.loadFromFile("Images/Player2_Head_Right.png");
-   heL_t.loadFromFile("Images/Player2_Head_Left.png");
-   ha_t.loadFromFile("Images/Player2_Hand.png");
-   bo_t.loadFromFile("Images/Player2_Body.png");
-   fo_t.loadFromFile("Images/Player2_Foot.png");
+   heR_t.loadFromFile("Images/Player/Player2_Head_Right.png");
+   heL_t.loadFromFile("Images/Player/Player2_Head_Left.png");
+   ha_t.loadFromFile("Images/Player/Player2_Hand.png");
+   bo_t.loadFromFile("Images/Player/Player2_Body.png");
+   fo_t.loadFromFile("Images/Player/Player2_Foot.png");
    break;
 
  default:

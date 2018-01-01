@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "window.hpp"
 #include "player.hpp"
+#include "object.hpp"
 
 
 int gameRenderer(void)
@@ -10,6 +11,9 @@ int gameRenderer(void)
   sf::RenderWindow window(sf::VideoMode(400,400), "SFML Game");
   Player p1(&window, 1, 100, 300);
   Player p2(&window, 2, 250, 300);
+
+  Object platform[10];
+
 
   while (window.isOpen())
     {
