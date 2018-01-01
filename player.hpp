@@ -10,12 +10,15 @@ class Player
   
 public:
 
-  float Str, Spd, Int;
+  sf::RenderWindow *win;
+  float Str, Spd, Int, x, y;
   bool is_moving;
-  sf::Texture heR_t, heL_t, ha_t, bo_t;
-  sf::Sprite footL, footR, handL, handR, Body, Head;
+  sf::Texture heR_t, heL_t, ha_t, bo_t, fo_t;
+  sf::Sprite footL, footR, handL, handR, body, head;
   
-  Player(int num);
+  Player(sf::RenderWindow *window, int num, int xi, int yi);
+  void draw(void);
+  void move(int mov);
   
 private:
 protected:

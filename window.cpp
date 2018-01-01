@@ -3,11 +3,13 @@
 #include "window.hpp"
 #include "player.hpp"
 
+
 int gameRenderer(void)
 {
-  sf::RenderWindow window(sf::VideoMode(200,200), "SFML Game");
-  sf::CircleShape shape(100.f);
-  shape.setFillColor(sf::Color::Green);
+
+  sf::RenderWindow window(sf::VideoMode(400,400), "SFML Game");
+  Player p1(&window, 1, 100, 100);
+
 
   while (window.isOpen())
     {
@@ -20,9 +22,17 @@ int gameRenderer(void)
 
 	}
 
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	p1.move(-1);
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	p1.move(1);
+
       
       window.clear();
-      window.draw(shape);
+      
+      p1.draw();
+      
       window.display();
 
 
