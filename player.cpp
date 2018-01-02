@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-  
+
 Player::Player(sf::RenderWindow *window, int num, int xi, int yi)
 {
   switch(num){
@@ -24,6 +24,12 @@ Player::Player(sf::RenderWindow *window, int num, int xi, int yi)
    exit(-1);
   }
 
+  Spd = 0.3;
+  mov = 0;
+  
+  x_acc = 0.0;
+  y_acc = 0.0;
+  is_falling=false;
   x = xi; y = yi;
   win = window;
   face(true);
@@ -53,15 +59,23 @@ void Player::draw(void)
   win->draw(footR);
 }
 
-void Player::move(float mov)
+void Player::move(void)
 {
   
   if (mov < 0)
-    face(false);
+    {face(false); x_acc += -0.005;}
   else if (mov > 0)
-    face(true);
+    {face(true); x_acc += 0.005;}
 
-  x += mov;
+  if (x_acc > Spd)
+    x_acc = Spd;
+  else if (x_acc < (Spd*-1))
+    x_acc = (Spd*-1);
+  x += x_acc;
+
+  if (y_acc > 1)
+    y_acc = 1;
+  y += y_acc;
   
   body.setPosition(x, y);
   head.setPosition(x+bias[0], y+bias[1]);
@@ -92,4 +106,12 @@ void Player::face(bool right)
       bias[8] = 18; bias[9] = 60;
     }
 
+}
+
+void Player::gravity(void)
+{
+  if (is_falling)
+    y_acc += 0.001;
+  else if (y_acc > 0)
+    y_acc = 0;
 }

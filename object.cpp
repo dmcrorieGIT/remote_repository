@@ -1,13 +1,33 @@
 #include "object.hpp"
 
-Object::Object(sf::RenderWindow *window, char *texturefile)
+Object::Object(void)
 {
-  win = window;
   
-  if (!(tl.loadFromFile(texturefile)))
-    exit(EXIT_FAILURE);
-
-  obj.setTexture(tl);
   obj.setPosition(100, 100);
 
+}
+
+void Object::setFile(std::string texturefile)
+{
+  if (!(tl.loadFromFile(texturefile)))
+    tl.loadFromFile("Images/Other/Warning.png");
+
+  obj.setTexture(tl);
+
+  return;
+}
+
+void Object::setWindow(sf::RenderWindow *window)
+{
+
+  win = window;
+
+  return;
+}
+
+void Object::setPos(float x, float y)
+{
+  obj.setPosition(x, y);
+
+  return;
 }

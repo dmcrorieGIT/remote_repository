@@ -2,6 +2,7 @@
 #define OBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Object
 {
@@ -10,7 +11,11 @@ public:
   sf::Texture tl;
   sf::Sprite obj;
 
-  Object(sf::RenderWindow *window, char *texturefile);
+  Object(void);
+
+  void setFile(std::string texturefile);
+  void setWindow(sf::RenderWindow *window);
+  void setPos(float x, float y);
   
 private:
 protected:
