@@ -1,58 +1,68 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include "window.hpp"
-#include "player.hpp"
-#include "object.hpp"
 
 
 int gameRenderer(void)
 {
 
-  struct Player_Handler ph; ph.size=0;
+  // Create the 'Player Handler', which tracks all of the player
+  // objects currently on the screen
+  struct Manager man; man.play_siz=0; man.plat_siz=0;
+  // Creates the game window
   sf::RenderWindow window(sf::VideoMode(500,500), "SFML Game");
-  
+
+  // Creates player 1 and adds it to the player manager
   Player p1(&window, 1, 100, 100);
-  ph.players[ph.size] = &p1;
-  ph.size++;
+  man.players[man.play_siz] = &p1;
+  man.play_siz++;
 
+  // also creates player 2 and adds it to player manager
   Player p2(&window, 2, 250, 100);
-  ph.players[ph.size] = &p2;
-  ph.size++;
-  
-  Object platform[10];
-  platform[0].setFile("Images/Platforms/Generic_Platform.png");
-  platform[0].setWindow(&window);
-  platform[0].obj.setScale(4,1);
-  platform[0].obj.setPosition(100, 280);
+  man.players[man.play_siz] = &p2;
+  man.play_siz++;
 
-  platform[1].setFile("Images/Platforms/Generic_Platform.png");
-  platform[1].setWindow(&window);
-  platform[1].obj.setScale(3,1);
-  platform[1].obj.setPosition(50, 400);
+  // initialize the first platform
+  Object platform1;
+  platform1.setFile("Images/Platforms/Generic_Platform.png");
+  platform1.setWindow(&window);
+  platform1.obj.setScale(4,1);
+  platform1.obj.setPosition(100, 280);
+  man.platforms[man.plat_siz] = &platform1;
+  man.plat_siz++;
+
+  // initialize the second platform
+  Object platform2;
+  platform2.setFile("Images/Platforms/Generic_Platform.png");
+  platform2.setWindow(&window);
+  platform2.obj.setScale(3,1);
+  platform2.obj.setPosition(50, 400);
+  man.platforms[man.plat_siz] = &platform2;
+  man.plat_siz++;
   
   while (window.isOpen())
     {
 
-      // check to see if players are 'grounded'
-      for (int i = 0; i < ph.size; i++)
+      // check to see which players are 'grounded'
+      for (int i = 0; i < man.play_siz; i++)
 	{
 	  // we assume player is falling until proven
 	  // otherwise
-	  ph.players[i]->is_falling=true;
+	  man.players[i]->is_falling=true;
 	  
-	  for (int j = 0; j < 2; j++)
+	  for (int j = 0; j < man.plat_siz; j++)
 	    {
-	      if (ph.players[i]->footR.getGlobalBounds().intersects(platform[j].obj.getGlobalBounds()) && ( (int)(ph.players[i]->footR.getGlobalBounds().top + ph.players[i]->footR.getGlobalBounds().height) == (int)platform[j].obj.getGlobalBounds().top))
-		ph.players[i]->is_falling=false;
+	      // if the player;s foot is intersecting a particular platform AND only the bottom
+	      // of the player's foot and the top of the platform are touching
+	      if (man.players[i]->footR.getGlobalBounds().intersects(man.platforms[j]->obj.getGlobalBounds()) && ( (int)(man.players[i]->footR.getGlobalBounds().top + man.players[i]->footR.getGlobalBounds().height) == (int)man.platforms[j]->obj.getGlobalBounds().top))
+		man.players[i]->is_falling=false;
 
 	    }
 
 	}
       
-      for (int i = 0; i < ph.size; i++)
+      for (int i = 0; i < man.play_siz; i++)
 	{
-	  ph.players[i]->gravity();
-	  ph.players[i]->move();
+	  man.players[i]->gravity();
+	  man.players[i]->move();
 	}
       sf::Event event;
       while (window.pollEvent(event))
@@ -69,28 +79,27 @@ int gameRenderer(void)
 	}
       
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && p1.is_falling==false)
-	p1.y_acc -= (p1.Spd / 3);
+	man.players[0]->y_acc -= (p1.Spd / 3);
       
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	p1.mov = -1;
+	man.players[0]->mov = -1;
 
       else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	p1.mov = 1;
+	man.players[0]->mov = 1;
 
       else{
-	p1.x_acc = 0;
-	p1.mov = 0;
+	man.players[0]->x_acc = 0;
+	man.players[0]->mov = 0;
       }
 	
       
       window.clear();
 
-      window.draw(platform[0].obj);
-      window.draw(platform[1].obj);
-      
-      p2.draw();
+      for (int i = 0; i < man.plat_siz; i++)
+	window.draw(man.platforms[i]->obj);
 
-      p1.draw();
+      for (int i = 0; i < man.play_siz; i++)
+	man.players[i]->draw();
       
       window.display();
 
