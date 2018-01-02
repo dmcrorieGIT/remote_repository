@@ -24,7 +24,7 @@ Player::Player(sf::RenderWindow *window, int num, int xi, int yi)
    exit(-1);
   }
 
-  Spd = 0.3;
+  Spd = 0.5;
   mov = 0;
   
   x_acc = 0.0;

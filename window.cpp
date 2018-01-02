@@ -42,7 +42,7 @@ int gameRenderer(void)
 	  
 	  for (int j = 0; j < 2; j++)
 	    {
-	      if (ph.players[i]->footR.getGlobalBounds().intersects(platform[j].obj.getGlobalBounds()))
+	      if (ph.players[i]->footR.getGlobalBounds().intersects(platform[j].obj.getGlobalBounds()) && ( (int)(ph.players[i]->footR.getGlobalBounds().top + ph.players[i]->footR.getGlobalBounds().height) == (int)platform[j].obj.getGlobalBounds().top))
 		ph.players[i]->is_falling=false;
 
 	    }
@@ -62,6 +62,12 @@ int gameRenderer(void)
 
 	}
 
+      //test
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+	  std::cout << "Test Information\n";
+	}
+      
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && p1.is_falling==false)
 	p1.y_acc -= (p1.Spd / 3);
       
