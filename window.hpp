@@ -17,5 +17,7 @@ struct Manager
 
 
 int gameRenderer(void);
+int manageGameScene(struct Manager *man);
+int managePlayerControls(struct Manager *man, int p);
 
 #endif
