@@ -3,3 +3,5 @@
 *.hpp~
 app
 main.o
+*BU.cpp
+*BU.hpp
