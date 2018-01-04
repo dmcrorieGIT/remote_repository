@@ -41,7 +41,6 @@ Player::Player(sf::RenderWindow *window, int num, int xi, int yi)
   x = xi; y = yi;
   win = window;
   face(true);
-  hands=true; feet=true; lfoot=false; rfoot=true;
 
   // set sprite textures to the user preferences
   footR.setTexture(fo_t);
@@ -87,12 +86,12 @@ void Player::move(void)
   // if mov is negative, then player is accelerating
   // to the left; face player left as well
   if (mov < 0)
-    {face(false); is_moving=false; x_acc += -0.005;}
+    {face(false); is_moving=true; x_acc += -0.005;}
 
   // if move is positive, then player is accelerating
   // to the right; face player right as well
   else if (mov > 0)
-    {face(true); is_moving=false; x_acc += 0.005;}
+    {face(true); is_moving=true; x_acc += 0.005;}
 
   else
     {is_moving=false; x_acc=0;}
@@ -111,18 +110,25 @@ void Player::move(void)
     y_acc = 1;
   y += y_acc;
 
-  animPlayer();
-  if (anim[7] < 0 || anim[9] < 0)
-    std::cout << "Less than zero!!\n";
+  animPlayer(is_moving, anim);
 
   // set the players body parts to their new
-  // positions  
+  // positions
+  /*
+  body.setPosition(x, y);
+  head.setPosition(x+bias[0], y+bias[1]);
+  handR.setPosition(x+bias[2], y+bias[3]);
+  handL.setPosition(x+bias[4], y+bias[5]);
+  footR.setPosition(x+bias[6], y+bias[7]);
+  footL.setPosition(x+bias[8], y+bias[9]);
+  */
+  
   body.setPosition(x, y);
   head.setPosition(x+bias[0]+anim[0], y+bias[1]+anim[1]);
   handR.setPosition(x+bias[2]+anim[2], y+bias[3]+anim[3]);
   handL.setPosition(x+bias[4]+anim[4], y+bias[5]+anim[5]);
-  footR.setPosition(x+bias[6]+anim[6], y+bias[7]-anim[7]);
-  footL.setPosition(x+bias[8]+anim[8], y+bias[9]-anim[9]);
+  footR.setPosition(x+bias[6]+anim[6], y+bias[7]+anim[7]);
+  footL.setPosition(x+bias[8]+anim[8], y+bias[9]+anim[9]);
   
 }
 
@@ -169,76 +175,4 @@ void Player::gravity(void)
     y_acc += 0.001;
   else if (y_acc > 0)
     y_acc = 0;
-}
-
-
-void Player::animPlayer(void)
-{
-
-  if (is_moving)
-    {
-
-      // leave head alone
-      anim[0]=0; anim[1]=0;
-
-      // handle hands
-      if (anim[2] <= -2)
-	hands=true;
-      else if (anim[2] >= 2)
-	hands=false;
-
-      // handle the feet
-      if (rfoot)
-	{
-	  if (anim[7] <= 0)
-	    {feet = true; rfoot=false; anim[7]=0;}
-	  else if (anim[7] >= 2)
-	    feet = false;
-	}
-      else if (!rfoot)
-	{
-	  if (anim[9] <= 0)
-	    {feet = true; rfoot=true; anim[9]=0;}
-	  else if (anim[9] >= 2)
-	    feet = false;
-	}
-      // shuffle right & left hand
-      if (hands)
-	{anim[2]+=0.04; anim[4]-=0.04;}
-      else
-	{anim[2]-=0.04; anim[4]+=0.04;}
-
-      // shuffle right & left foot
-      if (feet)
-	{
-	  if (rfoot)
-	    anim[7] += 0.02;
-	  else if (!rfoot)
-	    anim[9] += 0.02;
-	}
-      else if (!feet)
-	{
-	  if (rfoot)
-	    anim[7] -= 0.02;
-	  else if (!rfoot)
-	    anim[9] -= 0.02;
-	}
-
-      // make sure feet do not go 'below the ground'
-      if (anim[7] < 0)
-	anim[7] = 0;
-      if (anim[9] < 0)
-	anim[9] = 0;
-      
-    }
-  else
-    {
-      hands=true; feet=true; rfoot=true; 
-      anim[0]=0; anim[1]=0;
-      anim[2]=0; anim[3]=0;
-      anim[4]=0; anim[5]=0;
-      anim[6]=0; anim[7]=0;
-      anim[8]=0; anim[9]=0;
-    }
-
 }

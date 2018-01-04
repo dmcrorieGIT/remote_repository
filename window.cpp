@@ -108,7 +108,7 @@ int manageGameScene(struct Manager *man)
 	{
 	  // if the player;s foot is intersecting a particular platform AND only the bottom
 	  // of the player's foot and the top of the platform are touching
-	  if (man->players[i]->footR.getGlobalBounds().intersects(man->platforms[j]->obj.getGlobalBounds()) && ( (int)(man->players[i]->footR.getGlobalBounds().top + man->players[i]->footR.getGlobalBounds().height) == (int)man->platforms[j]->obj.getGlobalBounds().top))
+	  if (man->players[i]->footR.getGlobalBounds().intersects(man->platforms[j]->obj.getGlobalBounds()) && (  ( (int)(man->players[i]->footR.getGlobalBounds().top + man->players[i]->footR.getGlobalBounds().height) == (int)man->platforms[j]->obj.getGlobalBounds().top) || ( (int)(man->players[i]->footL.getGlobalBounds().top + man->players[i]->footL.getGlobalBounds().height) == (int)man->platforms[j]->obj.getGlobalBounds().top) ) )
 	    man->players[i]->is_falling=false;
 	  
 	}
@@ -158,10 +158,9 @@ int managePlayerControls(struct Manager *man, int p)
 	man->players[p]->mov = 1;
 
       //If not Right or Left - don't move
-      else{
-	man->players[p]->x_acc = 0;
+      else
 	man->players[p]->mov = 0;
-      }
+      
     }
 
   //Player_2
